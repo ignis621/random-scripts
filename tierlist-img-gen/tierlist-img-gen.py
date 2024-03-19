@@ -10,10 +10,11 @@ in_text_file = 'text.txt'
 in_img_dir = 'images'
 out_dir = 'output'
 
-fg_color: str = "white"
-bg_color: str = "black"
+fg_color = "white"
+bg_color = "black"
+font = "NotoSans-Regular.ttf"
 
-text = [] # read from text.txt
+text = [] # read from text.txt later
 
 # create dirs
 if not os.path.exists(out_dir):
@@ -39,6 +40,10 @@ with open('text.txt', 'r') as file:
             text += (line.strip(),)
 
 print(f"got these from text.txt:\n{text}")
+
+if (input(f"sort text? (y/N): ").strip() or 'n') == 'y':
+    text = sorted(text)
+    print(f"sorted text:\n{text}")
 
 def create_image(size, bg, message, font, fg):
     print(f"creating image with size {size} and message {message}")
@@ -72,7 +77,8 @@ def resize_image(size, image):
 i = 0
 
 for item in text:
-    img = create_image((size,size), bg_color, item, ImageFont.load_default(size/3), fg_color)
+    # img = create_image((size,size), bg_color, item, ImageFont.load_default(size/3), fg_color)
+    img = create_image((size,size), bg_color, item, ImageFont.truetype(font, size//3), fg_color)    
     img.save(f"{out_dir}/{i}.png") 
     i+=1
 
